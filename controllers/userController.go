@@ -26,12 +26,9 @@ func (ctrl *UserController) GetUsers(c *gin.Context) {
 
 func (ctrl *UserController) CreateUsers(c *gin.Context) {
 	var users models.User
+
 	if err := c.ShouldBindJSON(&users); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if err := ctrl.service.CreateUsers(&users); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal menyimpan data"})
 		return
 	}
 
@@ -43,6 +40,11 @@ func (ctrl *UserController) CreateUsers(c *gin.Context) {
 	}
 
 	users.Password = hashedPassword
+
+	if err := ctrl.service.CreateUsers(&users); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal menyimpan data"})
+		return
+	}
 
 	c.JSON(http.StatusOK, users)
 }

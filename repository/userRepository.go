@@ -25,7 +25,7 @@ func (r *UserRepository) Create(users *models.User) error {
 }
 
 func (r *UserRepository) Update(users *models.User) error {
-	return database.DB.Save(users).Error
+	return database.DB.Model(users).Omit("password").Where("id = ?", users.Id).Updates(users).Error
 }
 
 func (r *UserRepository) Delete(id uint) error {
