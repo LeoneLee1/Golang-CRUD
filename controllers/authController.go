@@ -33,7 +33,7 @@ func (a *AuthController) Login(c *gin.Context) {
 		return
 	}
 
-	token, err := helpers.CreateToken(users.Email)
+	token, err := helpers.CreateToken(users.Id ,users.Email, users.Role)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal membuat token"})
 		return

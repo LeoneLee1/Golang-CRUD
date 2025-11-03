@@ -91,3 +91,16 @@ func (ctrl *UserController) DeleteUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Berhasil hapus data"})
 }
 
+func (ctrl *UserController) Profile(c *gin.Context) {
+	ID, _ := c.Get("id")
+	Email, _ := c.Get("email")
+	Role, _ := c.Get("role")
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Data user dari token",
+		"id": ID,
+		"email": Email,
+		"role": Role,
+	})
+}
+
