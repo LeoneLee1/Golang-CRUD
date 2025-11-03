@@ -71,7 +71,7 @@ func (ctrl *UserController) UpdateUsers(c *gin.Context) {
 		return
 	}
 
-	users.Id = id
+	users.Id = uint(id)
 
 	if err := ctrl.service.UpdateUsers(&users); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Gagal update data"})
