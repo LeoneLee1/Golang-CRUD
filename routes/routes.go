@@ -16,6 +16,7 @@ func UserRoutes(r *gin.Engine) {
 	// AUTH ROUTES
 	{
 		auth.POST("/login", authController.Login)
+		auth.POST("/register", authController.Register)
 	}
 
 

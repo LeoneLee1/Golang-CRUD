@@ -1,0 +1,217 @@
+basePath: /api
+definitions:
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      role:
+        type: string
+    type: object
+host: localhost:8081
+info:
+  contact:
+    email: danielruntuwene42@gmail.com
+    name: Daniel Lee
+  description: This is a CRUD API built with Golang + Gin.
+  termsOfService: http://swagger.io/terms/
+  title: Go CRUD REST API
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login menggunakan email dan password
+      parameters:
+      - description: Login request
+        in: body
+        name: request
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login berhasil
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Input tidak valid
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Email atau password salah
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login user
+      tags:
+      - Auth
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Mendaftar akun baru
+      parameters:
+      - description: Register request
+        in: body
+        name: request
+        required: true
+        schema:
+          properties:
+            email:
+              type: string
+            name:
+              type: string
+            password:
+              type: string
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Akun berhasil dibuat
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Input tidak valid
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Register user baru
+      tags:
+      - Auth
+  /users:
+    get:
+      description: Menampilkan semua data user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Gagal mengambil data
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Ambil semua user
+      tags:
+      - User
+  /users/:id:
+    get:
+      description: Ambil data user bedasarkan id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Gagal mengambil data user
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Ambil data user
+      tags:
+      - User
+  /users/create:
+    post:
+      description: Membuat data user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Gagal membuat data user
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Buat user baru
+      tags:
+      - User
+  /users/delete/:id:
+    delete:
+      description: Menghapus data user bedasarkan id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Gagal menghapus data user
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Hapus data user
+      tags:
+      - User
+  /users/profile:
+    get:
+      description: Mengambil data user bedasarkan token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Gagal mengambil data user
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Ambil data user
+      tags:
+      - User
+  /users/update/:id:
+    put:
+      description: Memperbarui data user bedasarkan id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Gagal mengubah data user
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Ubah data user
+      tags:
+      - User
+swagger: "2.0"
