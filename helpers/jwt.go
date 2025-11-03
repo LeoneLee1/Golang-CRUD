@@ -9,7 +9,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var secretKey = []byte(os.Getenv("JWT_SECRET"))
+func GetSecretKey() []byte {
+	key := os.Getenv("JWT_SECRET")
+	if key == "" {
+		key = "default-secret-key"
+	}
+	return []byte(key)
+}
 
 type JWTClaim struct {
 	ID uint `json:"id"`
@@ -32,7 +38,7 @@ func CreateToken(Id uint, Email string, Role string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(secretKey)
+	return token.SignedString(GetSecretKey())
 }
 
 func VerifyToken(tokenString string) (*JWTClaim, error) {
@@ -42,7 +48,7 @@ func VerifyToken(tokenString string) (*JWTClaim, error) {
 			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
 		}
 
-		return secretKey, nil
+		return GetSecretKey(), nil
 	})
 
 	if err != nil {
