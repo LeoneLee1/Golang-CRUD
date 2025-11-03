@@ -15,7 +15,7 @@ func UserRoutes(r *gin.Engine) {
 
 	// AUTH ROUTES
 	{
-		auth.POST("/api/login", authController.Login)
+		auth.POST("/login", authController.Login)
 	}
 
 
@@ -26,10 +26,13 @@ func UserRoutes(r *gin.Engine) {
 	// USER ROUTES
 	{
 		protected.GET("/users", userController.GetUsers)
-		protected.POST("/users/create", userController.CreateUsers)
 		protected.GET("/users/:id", userController.GetUsersByID)
-		protected.PUT("/users/update/:id", userController.UpdateUsers)
-		protected.DELETE("/users/delete/:id",userController.DeleteUsers)
 		protected.GET("/users/profile",userController.Profile)
+
+		admin := protected.Group("/admin")
+		admin.Use(middleware.AdminMiddleware())
+		admin.POST("/users/create", userController.CreateUsers)
+		admin.PUT("/users/update/:id", userController.UpdateUsers)
+		admin.DELETE("/users/delete/:id",userController.DeleteUsers)
 	}
 }
